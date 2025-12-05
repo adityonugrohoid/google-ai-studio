@@ -35,3 +35,25 @@ next-env.d.ts
 
 #outputs
 outputs/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Python virtual environments
+.venv/
+venv/
+ENV/
+env/
