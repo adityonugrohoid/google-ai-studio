@@ -94,7 +94,9 @@ Include:
 Base description: "{base_prompt}"
 """
 
-        response = self.client.models.generate_content(
+        # Run blocking call in thread pool to avoid blocking event loop
+        response = await asyncio.to_thread(
+            self.client.models.generate_content,
             model=self.model_step1,
             contents=text_prompt,
             config=types.GenerateContentConfig(
@@ -113,7 +115,9 @@ Base description: "{base_prompt}"
             + enhanced_prompt
         )
 
-        response = self.client.models.generate_content(
+        # Run blocking call in thread pool to avoid blocking event loop
+        response = await asyncio.to_thread(
+            self.client.models.generate_content,
             model=self.model_step2,
             contents=[sketch_generation_prompt],
         )
@@ -139,7 +143,9 @@ Base description: "{base_prompt}"
             "realistic reflections, micro-surface details, natural color grading, and lens effects."
         )
 
-        response = self.client.models.generate_content(
+        # Run blocking call in thread pool to avoid blocking event loop
+        response = await asyncio.to_thread(
+            self.client.models.generate_content,
             model=self.model_step3,
             contents=[render_prompt, sketch_image],
             config=types.GenerateContentConfig(

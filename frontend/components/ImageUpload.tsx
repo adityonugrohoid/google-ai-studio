@@ -11,7 +11,7 @@ export function ImageUpload() {
   const [preview, setPreview] = useState<string | null>(null);
   const [customPrompt, setCustomPrompt] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { setGenerating, setCurrentStep, setError, addResult } = useAppStore();
+  const { setGenerating, setCurrentStep, setError, addResult, isGenerating } = useAppStore();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -112,7 +112,7 @@ export function ImageUpload() {
                   accept="image/*"
                   onChange={handleFileChange}
                   className="hidden"
-                  disabled={useAppStore.getState().isGenerating}
+                  disabled={isGenerating}
                 />
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   PNG, JPEG, or any image format
@@ -134,16 +134,16 @@ export function ImageUpload() {
           placeholder="e.g., Transform into a luxury modern interior with warm lighting"
           rows={3}
           className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-800 dark:text-white resize-none"
-          disabled={useAppStore.getState().isGenerating}
+          disabled={isGenerating}
         />
       </div>
 
       <button
         type="submit"
-        disabled={useAppStore.getState().isGenerating || !file}
+        disabled={isGenerating || !file}
         className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
-        {useAppStore.getState().isGenerating ? (
+        {isGenerating ? (
           <>
             <Loader2 className="w-5 h-5 animate-spin" />
             Generating...
