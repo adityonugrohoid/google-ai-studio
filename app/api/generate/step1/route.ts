@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { GoogleGenerativeAI } from '@google/generative-ai'
 
 const MODEL_STEP1 = 'gemini-2.0-flash-lite'
 
@@ -14,6 +13,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Truncate basePrompt to first 200 words to prevent abuse
+    const words = basePrompt.trim().split(/\s+/)
+    const maxWords = 200
+    const truncatedPrompt = words.length > maxWords 
+      ? words.slice(0, maxWords).join(' ') + '...'
+      : basePrompt
+
     const apiKey = process.env.GOOGLE_AI_API_KEY
     if (!apiKey) {
       return NextResponse.json(
@@ -22,25 +28,51 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const genAI = new GoogleGenerativeAI(apiKey)
-    const model = genAI.getGenerativeModel({ model: MODEL_STEP1 })
+    const textPrompt = (
+      'Expand this room description into 1-2 short sentences with key details. Be very brief (under 20 words).\n\n' +
+      `Room: ${truncatedPrompt}`
+    )
 
-    const textPrompt = `Expand this description into a detailed architectural and interior-design prompt.
+    // Use REST API for consistent format and token limits
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_STEP1}:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: textPrompt,
+                },
+              ],
+            },
+          ],
+          generationConfig: {
+            maxOutputTokens: 50,
+            temperature: 0.7,
+          },
+        }),
+      }
+    )
 
-Include:
-- spatial layout
-- object placements
-- textures and materials
-- lighting style
-- color palette
-- rough dimensions
-- artistic direction suitable for image generation
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.error?.message || 'Failed to generate enhanced prompt')
+    }
 
-Base description: "${basePrompt}"`
+    const data = await response.json()
+    const enhancedPrompt = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || ''
 
-    const result = await model.generateContent(textPrompt)
-    const response = await result.response
-    const enhancedPrompt = response.text().trim()
+    if (!enhancedPrompt) {
+      return NextResponse.json(
+        { error: 'No enhanced prompt generated' },
+        { status: 500 }
+      )
+    }
 
     return NextResponse.json({ enhancedPrompt })
   } catch (error: any) {

@@ -22,10 +22,10 @@ export async function POST(request: NextRequest) {
     }
 
     const sketchGenerationPrompt = (
-      'Create a pure black-and-white architectural sketch. ' +
-      'Use only black pencil lines on white background. No colors, no gray shades. ' +
-      'Emphasize contour lines, perspective depth, and object boundaries.\n\n' +
-      enhancedPrompt
+      'Create a clean black-and-white architectural line drawing sketch. ' +
+      'Pure black lines on white background. No shading, no color, no grayscale. ' +
+      'Show perspective, layout, and all furniture/objects clearly.\n\n' +
+      `Room: ${enhancedPrompt}`
     )
 
     // Use REST API for image generation models
