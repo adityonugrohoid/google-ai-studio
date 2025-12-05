@@ -1,5 +1,5 @@
 [project]
-name = "template-package"
+name = "google-ai-studio"
 version = "1.0.0"
 description = "A template for Python projects with best practices"
 readme = "README.md"
@@ -77,7 +77,7 @@ line-ending = "auto"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q --cov=template_package"
+addopts = "-ra -q --cov=google_ai_studio"
 testpaths = [
     "tests",
 ]

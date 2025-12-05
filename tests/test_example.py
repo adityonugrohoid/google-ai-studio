@@ -1,4 +1,4 @@
-from template_package import __version__
+from google_ai_studio import __version__
 
 
 def test_version() -> None:
