@@ -108,8 +108,8 @@ export default function Home() {
             <span className="text-primary font-mono font-bold text-sm tracking-wider">AI Powered 3D Design Rendering</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-mono font-bold text-primary mb-6 leading-tight tracking-tight text-center">
-            Transform Vision Into
-            <span className="text-white block">Photorealistic Renders</span>
+            Visions Realized
+            <span className="text-white block">Photorealistic Instant</span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-10 font-sans max-w-2xl mx-auto tracking-wide">
             Describe your dream space and watch as AI generates a conceptual sketch, then transforms it into a high-end photorealistic render.
