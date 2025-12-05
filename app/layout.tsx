@@ -10,9 +10,22 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'AI Studio by AdityoLab | Interior Design AI Generator',
-  description: 'Generate photorealistic high-end interior design renders from simple descriptions. Powered by Google Gemini AI.',
+  title: 'AI Studio by AdityoLab | AI Design Rendering Generator',
+  description: 'Generate photorealistic high-end design renders from sketches. Powered by Google Gemini AI.',
   keywords: 'interior design, AI design, architectural visualization, 3D rendering, AI studio',
+  openGraph: {
+    title: 'AI Studio by AdityoLab | AI Design Rendering Generator',
+    description: 'Transform your design ideas into photorealistic renders. Powered by Google Gemini AI.',
+    url: 'https://adityolab-ai-studio.vercel.app',
+    siteName: 'AI Studio by AdityoLab',
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'AI Studio by AdityoLab | AI Design Rendering Generator',
+    description: 'Transform your design ideas into photorealistic renders. Powered by Google Gemini AI.',
+  },
 }
 
 export default function RootLayout({
