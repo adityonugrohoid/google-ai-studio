@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const MODEL_STEP3 = 'gemini-3-pro-image-preview'
+const MODEL_STEP3 = 'gemini-2.5-flash-image'
 
 export async function POST(request: NextRequest) {
   try {
