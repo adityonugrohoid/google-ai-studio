@@ -1,0 +1,94 @@
+<!-- AI Playground Section -->
+<section id="ai-playground" class="py-20 bg-secondary relative overflow-hidden">
+    <!-- Background decorative elements -->
+    <div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="text-center mb-16">
+            <div class="inline-block px-4 py-2 bg-primary/10 rounded-full mb-4">
+                <span class="text-primary font-bold text-sm">✨ AI-Powered Design</span>
+            </div>
+            <h2 class="text-4xl font-serif font-bold text-primary mb-4">
+                Sketch & Render Playground
+            </h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">
+                Experience the power of AI. Describe your dream space and watch as our AI generates
+                both a conceptual sketch and a photorealistic render instantly.
+            </p>
+        </div>
+
+        <!-- Input Area -->
+        <div class="max-w-4xl mx-auto mb-12">
+            <div class="bg-neutral rounded-2xl p-8 border border-white/10">
+                <label class="block text-primary font-bold mb-3">Describe Your Space</label>
+                <div class="flex gap-3">
+                    <input type="text" x-model="playgroundInput"
+                        placeholder="e.g., Modern minimalist living room in Surabaya with large windows..."
+                        class="flex-1 px-6 py-4 bg-secondary rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-primary/50 placeholder-gray-500 border border-white/10">
+                    <button @click="generatePlaygroundDesign" :disabled="playgroundLoading || !playgroundInput.trim()"
+                        class="px-8 py-4 bg-primary text-secondary font-bold rounded-xl hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition shadow-lg">
+                        <span x-show="!playgroundLoading">Generate</span>
+                        <span x-show="playgroundLoading">Generating...</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Display -->
+        <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <!-- Sketch Result -->
+            <div class="bg-neutral rounded-2xl overflow-hidden border border-white/10">
+                <div class="bg-secondary border-b border-white/10 p-4">
+                    <h3 class="text-primary font-bold">✏️ Conceptual Sketch</h3>
+                    <p class="text-gray-400 text-sm">Black & white architectural line drawing</p>
+                </div>
+                <div class="aspect-square bg-secondary flex items-center justify-center p-8">
+                    <div x-show="!playgroundSketch" class="text-center text-gray-500">
+                        <svg class="w-16 h-16 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        <p class="text-sm">Your sketch will appear here</p>
+                    </div>
+                    <img x-show="playgroundSketch" :src="playgroundSketch" alt="AI Generated Sketch"
+                        class="w-full h-full object-cover rounded-lg">
+                </div>
+            </div>
+
+            <!-- Render Result -->
+            <div class="bg-neutral rounded-2xl overflow-hidden border border-white/10">
+                <div class="bg-secondary border-b border-white/10 p-4">
+                    <h3 class="text-primary font-bold">🎨 Photorealistic Render</h3>
+                    <p class="text-gray-400 text-sm">8K quality architectural visualization</p>
+                </div>
+                <div class="aspect-square bg-secondary flex items-center justify-center p-8">
+                    <div x-show="!playgroundRender" class="text-center text-gray-500">
+                        <svg class="w-16 h-16 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        <p class="text-sm">Your render will appear here</p>
+                    </div>
+                    <img x-show="playgroundRender" :src="playgroundRender" alt="AI Generated Render"
+                        class="w-full h-full object-cover rounded-lg">
+                </div>
+            </div>
+        </div>
+
+        <!--Loading Indicator -->
+        <div x-show="playgroundLoading" class="text-center mt-8">
+            <div class="inline-flex items-center gap-3 bg-neutral px-6 py-3 rounded-full border border-primary/30">
+                <div class="flex space-x-1">
+                    <div class="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+                    <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                </div>
+                <span class="text-gray-300 text-sm">AI is creating your designs...</span>
+            </div>
+        </div>
+    </div>
+</section>

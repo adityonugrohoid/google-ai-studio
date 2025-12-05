@@ -1,0 +1,175 @@
+Metadata-Version: 2.4
+Name: google-ai-studio
+Version: 1.0.0
+Summary: A template for Python projects with best practices
+Author-email: Adityo Nugroho <adityo.nugroho.id@gmail.com>
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: google-genai>=1.47.0
+Requires-Dist: pillow>=11.3.0
+
+# Project Template
+
+[![CI](https://github.com/adityonugrohoid/template/actions/workflows/ci.yml/badge.svg)](https://github.com/adityonugrohoid/template/actions/workflows/ci.yml)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+[![pytest](https://img.shields.io/badge/pytest-enabled-blue?logo=pytest)](https://docs.pytest.org/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![mypy](https://img.shields.io/badge/mypy-checked-blue?logo=python)](https://mypy.readthedocs.io/)
+[![Python](https://img.shields.io/badge/python-3.9%2B-blue?logo=python)](https://www.python.org/)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+
+A Python project template implementing best practices for packaging, testing, and code quality, powered by [uv](https://github.com/astral-sh/uv).
+
+## Features
+
+- **Package Management**: `uv` for blazing fast dependency management.
+- **Linting & Formatting**: [Ruff](https://docs.astral.sh/ruff/) for fast and comprehensive code quality checks.
+- **Testing**: [Pytest](https://docs.pytest.org/) with coverage reporting.
+- **Type Checking**: [MyPy](https://mypy.readthedocs.io/) for static type analysis.
+- **CI/CD**: GitHub Actions workflow for automated testing and linting.
+- **Pre-commit**: Git hooks to ensure code quality before committing.
+
+## Using This Template
+
+To start a new project based on this template, follow these steps:
+
+### 1. Clone the Template
+
+Navigate to your projects directory and clone the template with your new project name:
+
+```bash
+# Replace 'my-new-project' with your desired project name
+git clone https://github.com/adityonugrohoid/template.git my-new-project
+cd my-new-project
+```
+
+### 2. Reset Git History
+
+Remove the template's git history to start fresh:
+
+**On Windows (PowerShell):**
+```powershell
+Remove-Item -Recurse -Force .git
+git init
+git add .
+git commit -m "chore: initialize project from template"
+```
+
+**On Linux/macOS:**
+```bash
+rm -rf .git
+git init
+git add .
+git commit -m "chore: initialize project from template"
+```
+
+### 3. Create a New GitHub Repository
+
+1. Go to [GitHub: Create a new repository](https://github.com/new)
+2. Set your repository name (e.g., `my-new-project`)
+3. Choose visibility (Public/Private)
+4. **Do NOT** initialize with README, .gitignore, or license (already included in template)
+5. Click "Create repository"
+
+### 4. Link to Your New Repository
+
+Replace `YOUR_USERNAME` and `YOUR_REPO_NAME` with your actual values:
+
+```bash
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+git branch -M main
+git push -u origin main
+```
+
+### 5. Customize Your Project
+
+- Update `pyproject.toml` with your project details (name, description, author)
+- Update this `README.md` with your project-specific information
+- Rename `src/template_package/` to your actual package name
+- Update imports in tests accordingly
+
+### 6. Install Dependencies
+
+```bash
+# Install uv if not already installed (recommended method)
+# Windows (PowerShell)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# macOS/Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Then sync dependencies
+uv sync
+uv run pre-commit install
+```
+
+## Development Setup
+
+If you're working on an existing project using this template:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+    cd YOUR_REPO_NAME
+    ```
+
+2.  **Install `uv` (if not already installed):**
+
+    **Recommended method:**
+    ```powershell
+    # Windows (PowerShell)
+    powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+    # macOS/Linux
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
+
+3.  **Sync dependencies:**
+    ```bash
+    uv sync
+    ```
+    This command will create the virtual environment (`.venv`) and install all dependencies.
+
+4.  **Install pre-commit hooks:**
+    ```bash
+    uv run pre-commit install
+    ```
+
+## Usage
+
+### Running Tests
+
+```bash
+uv run pytest
+```
+
+### Linting and Formatting
+
+```bash
+uv run ruff check .
+uv run ruff format .
+```
+
+### Type Checking
+
+```bash
+uv run mypy .
+```
+
+## Project Structure
+
+```
+.
+├── .github/            # GitHub Actions workflows
+├── src/                # Source code
+│   └── template_package/
+├── tests/              # Test suite
+├── .gitignore
+├── .pre-commit-config.yaml
+├── pyproject.toml
+├── uv.lock
+└── README.md
+```

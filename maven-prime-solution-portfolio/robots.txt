@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://adityonugrohoid.github.io/maven-prime-solution/sitemap.xml

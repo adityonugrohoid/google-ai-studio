@@ -1,299 +1,160 @@
 # AI Studio by AdityoLab
 
-Generate photorealistic high-end interior design renders from sketch images using Google Gemini AI.
+A Next.js web application that generates photorealistic interior design renders from simple text descriptions using Google Gemini AI.
 
-![AI Studio](https://img.shields.io/badge/AI-Studio-blue)
-![Python](https://img.shields.io/badge/Python-3.9+-blue)
-![uv](https://img.shields.io/badge/uv-Package%20Manager-orange)
-![Next.js](https://img.shields.io/badge/Next.js-14-black)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green)
+## Features
 
-## 🎨 Features
+- **3-Step AI Workflow:**
+  1. **Text Enhancement**: Expands simple descriptions into detailed architectural prompts
+  2. **Sketch Generation**: Creates black-and-white architectural sketches
+  3. **Photorealistic Rendering**: Transforms sketches into high-end 3D renders
 
-- **Text to Render**: Describe your interior design vision and generate photorealistic renders
-- **Sketch to Render**: Upload a sketch image and transform it into a high-end 3D render
-- **3-Step Generation Process**:
-  1. Text enhancement with architectural details
-  2. Black-and-white sketch generation
-  3. Photorealistic render creation
-- **Real-time Progress Tracking**: See each step of the generation process
-- **Result Gallery**: View and download all your generated renders
-- **Modern UI**: Beautiful, responsive interface with dark mode support
+- **Modern UI**: Beautiful, responsive interface with Tailwind CSS
+- **Vercel Ready**: Optimized for deployment on Vercel
 
-## 🏗️ Architecture
+## Tech Stack
 
-### Backend (FastAPI)
-- **Location**: `backend/`
-- **Technology**: Python 3.9+, FastAPI, Google Gemini AI
-- **Features**:
-  - RESTful API endpoints
-  - Image processing with PIL
-  - Base64 image encoding for JSON responses
-  - CORS configuration
-  - Error handling
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **AI**: Google Gemini AI (Gemini 2.0 Flash Lite, Gemini 2.5 Flash Image, Gemini 3 Pro Image Preview)
 
-### Frontend (Next.js)
-- **Location**: `frontend/`
-- **Technology**: Next.js 14, TypeScript, Tailwind CSS, Zustand
-- **Features**:
-  - Server-side rendering
-  - Responsive design
-  - Real-time state management
-  - Image upload and preview
-  - Progress indicators
-
-### Core Library
-- **Location**: `src/google_ai_studio/`
-- Original Python scripts for AI generation
-- Used by the FastAPI backend service layer
-
-## 🚀 Quick Start
+## Getting Started
 
 ### Prerequisites
 
-- Python 3.9 or higher
-- Node.js 18 or higher
+- Node.js 18+ and npm
 - Google AI Studio API key ([Get one here](https://aistudio.google.com/apikey))
 
-### Backend Setup
+### Installation
 
-1. **Navigate to backend directory:**
-   ```bash
-   cd backend
-   ```
-
-2. **Install dependencies using uv:**
-   ```bash
-   uv sync
-   ```
-
-3. **Set up environment variables:**
-   ```bash
-   cp .env.example .env
-   # Edit .env and add your GOOGLE_API_KEY
-   ```
-
-4. **Run the backend server:**
-   ```bash
-   uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-   ```
-
-   The API will be available at `http://localhost:8000`
-   - API Docs: http://localhost:8000/docs
-   - ReDoc: http://localhost:8000/redoc
-
-### Frontend Setup
-
-1. **Navigate to frontend directory:**
-   ```bash
-   cd frontend
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   ```
-
-3. **Set up environment variables:**
-   ```bash
-   cp .env.local.example .env.local
-   # Edit .env.local and set NEXT_PUBLIC_API_URL=http://localhost:8000
-   ```
-
-4. **Run the development server:**
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   ```
-
-   The frontend will be available at `http://localhost:3000`
-
-## 📁 Project Structure
-
-```
-google-ai-studio/
-├── backend/                 # FastAPI backend
-│   ├── app/
-│   │   ├── api/
-│   │   │   └── routes/      # API endpoints
-│   │   ├── core/            # Configuration
-│   │   ├── services/        # Business logic
-│   │   └── main.py          # FastAPI app
-│   ├── pyproject.toml          # uv project configuration
-│   └── requirements.txt        # Alternative: pip requirements
-│   └── README.md
-│
-├── frontend/                # Next.js frontend
-│   ├── app/                 # Next.js app directory
-│   ├── components/          # React components
-│   ├── lib/                 # Utilities
-│   ├── package.json
-│   └── README.md
-│
-├── src/
-│   └── google_ai_studio/    # Original Python scripts
-│       ├── room-gen-full.py
-│       └── ...
-│
-└── README.md                # This file
-```
-
-## 🔧 API Endpoints
-
-### Generation Endpoints
-
-- **POST `/api/generate`** - Generate render from text prompt
-  ```json
-  {
-    "prompt": "modern living room",
-    "return_intermediates": true
-  }
-  ```
-
-- **POST `/api/generate-from-sketch`** - Generate render from uploaded sketch
-  - Form data: `file` (image), optional `custom_prompt` (string)
-
-### Utility Endpoints
-
-- **GET `/api/health`** - Health check
-- **GET `/`** - API information
-
-## 🎯 Usage Examples
-
-### Text to Render
-
-1. Open the frontend at `http://localhost:3000`
-2. Select "Text to Render" tab
-3. Enter a description like: "modern living room with large windows"
-4. Click "Generate Render"
-5. Wait for the 3-step process to complete
-6. View and download your render
-
-### Sketch to Render
-
-1. Select "Sketch to Render" tab
-2. Upload a sketch image (PNG, JPEG, etc.)
-3. Optionally add a custom rendering prompt
-4. Click "Generate from Sketch"
-5. View and download your render
-
-## 🛠️ Development
-
-### Backend Development
-
+1. Clone the repository:
 ```bash
-cd backend
-# Install dependencies
-uv sync
-
-# Run with auto-reload
-uv run uvicorn app.main:app --reload
+git clone <your-repo-url>
+cd google-ai-studio
 ```
 
-### Frontend Development
-
+2. Install dependencies:
 ```bash
-cd frontend
-# Install dependencies
 npm install
+```
 
-# Run development server
+3. Create a `.env.local` file in the root directory:
+```bash
+GOOGLE_AI_API_KEY=your_api_key_here
+```
+
+4. Run the development server:
+```bash
 npm run dev
 ```
 
-## 📦 Deployment
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Backend Deployment
+## Deployment to Vercel
 
-The FastAPI backend can be deployed to:
-- **Railway**: Easy Python deployment
-- **Render**: Free tier available
-- **Fly.io**: Global edge deployment
-- **Docker**: Containerize and deploy anywhere
+1. Push your code to GitHub/GitLab/Bitbucket
 
-Example Dockerfile (using uv):
-```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
+2. Import your repository in [Vercel](https://vercel.com)
 
-# Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+3. Add your environment variable:
+   - Go to Project Settings → Environment Variables
+   - Add `GOOGLE_AI_API_KEY` with your API key value
 
-# Copy project files
-COPY backend/pyproject.toml backend/uv.lock* ./
-COPY backend/ ./backend/
+4. Deploy! Vercel will automatically build and deploy your application.
 
-# Install dependencies
-RUN uv sync --frozen
+## Project Structure
 
-# Run the application
-CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+.
+├── app/
+│   ├── api/
+│   │   └── generate/
+│   │       ├── step1/     # Text enhancement API
+│   │       ├── step2/     # Sketch generation API
+│   │       └── step3/     # Render generation API
+│   ├── globals.css        # Global styles
+│   ├── layout.tsx          # Root layout
+│   └── page.tsx            # Main page component
+├── public/                # Static assets
+├── package.json
+├── next.config.js
+├── tailwind.config.js
+└── tsconfig.json
 ```
 
-Or using traditional pip:
-```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY backend/requirements.txt .
-RUN pip install -r requirements.txt
-COPY backend/ .
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+## API Routes
+
+### POST `/api/generate/step1`
+Enhances a simple text description into a detailed architectural prompt.
+
+**Request:**
+```json
+{
+  "basePrompt": "modern living room"
+}
 ```
 
-### Frontend Deployment
-
-The Next.js frontend can be deployed to:
-- **Vercel**: Recommended (made by Next.js creators)
-- **Netlify**: Easy deployment
-- **Cloudflare Pages**: Fast global CDN
-
-## 🔐 Environment Variables
-
-### Backend (.env)
-```env
-GOOGLE_API_KEY=your_api_key_here
-CORS_ORIGINS=http://localhost:3000,http://localhost:3001
-MODEL_STEP1=gemini-2.0-flash-lite
-MODEL_STEP2=gemini-2.5-flash-image
-MODEL_STEP3=gemini-3-pro-image-preview
+**Response:**
+```json
+{
+  "enhancedPrompt": "Detailed architectural description..."
+}
 ```
 
-### Frontend (.env.local)
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
+### POST `/api/generate/step2`
+Generates a black-and-white architectural sketch from an enhanced prompt.
+
+**Request:**
+```json
+{
+  "enhancedPrompt": "Detailed architectural description..."
+}
 ```
 
-## 🤝 Contributing
+**Response:**
+```json
+{
+  "imageData": "data:image/png;base64,..."
+}
+```
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+### POST `/api/generate/step3`
+Transforms a sketch image into a photorealistic render.
 
-## 📝 License
+**Request:**
+```json
+{
+  "sketchImageData": "data:image/png;base64,..."
+}
+```
 
-MIT License - see LICENSE file for details
+**Response:**
+```json
+{
+  "imageData": "data:image/png;base64,..."
+}
+```
 
-## 👤 Author
+## Usage
 
-**Adityo Nugroho**
-- Email: adityo.nugroho.id@gmail.com
-- GitHub: [@adityonugrohoid](https://github.com/adityonugrohoid)
+1. Enter a simple room description (e.g., "modern minimalist living room")
+2. Click "Generate Design"
+3. Watch as the AI:
+   - Enhances your description
+   - Creates a conceptual sketch
+   - Generates a photorealistic render
 
-## 🙏 Acknowledgments
+## Models Used
 
-- Google Gemini AI for the powerful image generation models
-- FastAPI for the excellent Python web framework
-- Next.js for the amazing React framework
-- All the open-source contributors
+- **Step 1**: `gemini-2.0-flash-lite` - Fast text generation
+- **Step 2**: `gemini-2.5-flash-image` - Image generation from text
+- **Step 3**: `gemini-3-pro-image-preview` - High-quality image-to-image transformation
 
----
+## License
 
-Made with ❤️ by AdityoLab
+MIT
+
+## Author
+
+AdityoLab

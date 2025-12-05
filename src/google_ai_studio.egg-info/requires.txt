@@ -1,0 +1,2 @@
+google-genai>=1.47.0
+pillow>=11.3.0
