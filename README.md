@@ -30,7 +30,7 @@ This project demonstrates advanced AI practices in building a production-ready s
 ### Model Performance Analysis
 
 - **Gemini 3 Pro Image Preview**: 
-  - Delivers perfect alignment between sketch and render
+  - Delivers near-exact alignment between sketch and render
   - Maintains 1:1 correspondence with input sketch
   - Production-ready for interior design services
 
@@ -189,7 +189,7 @@ Transforms a sketch image into a photorealistic render using optimized generatio
 3. Watch as the AI:
    - Enhances your description with architectural details
    - Creates a conceptual sketch
-   - Generates a photorealistic render with perfect sketch alignment
+   - Generates a photorealistic render with high-fidelity sketch alignment
 
 ## Target Audience
 
@@ -203,7 +203,7 @@ This project is designed to provide services to **interior designers** where:
 
 - **Step 1**: `gemini-2.0-flash-lite` - Fast text generation for prompt enhancement
 - **Step 2**: `gemini-2.5-flash-image` - Efficient sketch generation from text
-- **Step 3**: `gemini-3-pro-image-preview` - High-quality image-to-image transformation with perfect sketch alignment
+- **Step 3**: `gemini-3-pro-image-preview` - High-quality image-to-image transformation with high-fidelity sketch alignment
 
 ## License
 
