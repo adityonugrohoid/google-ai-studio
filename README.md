@@ -1,216 +1,256 @@
+<div align="center">
+
 # AI Studio by AdityoLab
 
-A Next.js web application that generates photorealistic interior design renders from simple text descriptions using Google Gemini AI. This project serves as a portfolio demonstration of AI system design, API integration, and image generation optimization.
+[![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue.svg)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black.svg)](https://vercel.com)
 
-## Project Overview
+**Next.js app that generates photorealistic interior renders from text via a 3-stage Gemini pipeline: enhance, sketch, render**
 
-This project demonstrates advanced AI practices in building a production-ready system for interior designers. The goal is to provide a service where simple, high-quality renders can be achieved through AI solutions, eliminating the need for complex 3D modeling software.
+[Getting Started](#getting-started) | [Usage](#usage) | [Architecture](#architecture)
 
-## Key Features & System Design
+</div>
 
-### 3-Step AI Workflow
+---
 
-1. **Text Enhancement**: 
-   - Users input simple space descriptions (e.g., "modern living room")
-   - The system expands these into detailed architectural prompts
-   - This enhancement ensures the sketch generation receives rich, contextual information
+## Table of Contents
 
-2. **Sketch Generation**: 
-   - Creates black-and-white architectural sketches from enhanced prompts
-   - Uses Google Gemini 2.5 Flash Image for fast generation
+- [The Problem](#the-problem)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Configuration](#configuration)
+- [Usage](#usage)
+- [How It Works](#how-it-works)
+- [API Reference](#api-reference)
+- [Architectural Decisions](#architectural-decisions)
+- [Project Structure](#project-structure)
+- [Deployment](#deployment)
+- [Related Projects](#related-projects)
+- [License](#license)
+- [Author](#author)
 
-3. **Photorealistic Rendering**: 
-   - Transforms sketches into high-end, V-Ray-like 3D renders
-   - Utilizes Google's text-and-image to image generation function
-   - **Tuned generation config** for true sketch-to-render alignment:
-     - `temperature: 0.0` - Ensures deterministic, consistent outputs
-     - `topP: 1.0` - Allows full vocabulary access
-     - `topK: 40` - Balances creativity with accuracy
+## The Problem
 
-### Model Performance Analysis
+### Interior Design Visualization Without 3D Modeling
 
-- **Gemini 3 Pro Image Preview**: 
-  - Delivers near-exact alignment between sketch and render
-  - Maintains 1:1 correspondence with input sketch
-  - Production-ready for interior design services
+Producing high-quality interior renders traditionally requires expensive 3D modeling software, specialized skill, and long iteration cycles. Designers and clients cannot quickly visualize concepts from a simple room description.
 
-- **Gemini 2.5 Flash Image**: 
-  - Can deliver good results but with minor artifacts
-  - Occasional creativity drift makes render result not 1:1 to sketch
-  - Suitable for faster iterations but less precise
+### The Solution
 
-## Portfolio Highlights
+This app feeds a plain-text room description through a three-stage Gemini pipeline: prompt enhancement, sketch synthesis, and photorealistic rendering. The result is a V-Ray-quality render in seconds, with no modeling software required.
 
-This project demonstrates expertise in:
+## Features
 
-- **AI System Architecture**: Designing multi-step AI workflows with proper data flow
-- **Google Gemini API Integration**: Advanced usage of text-to-text, text-to-image, and image-to-image models
-- **Image Generation Optimization**: Fine-tuning generation parameters for production-quality outputs
-- **Full-Stack Development**: Next.js, TypeScript, Tailwind CSS
-- **API Design**: RESTful API routes with proper error handling
-- **Production Deployment**: Vercel-optimized configuration
+- **3-stage AI pipeline** - text description flows through enhancement, sketch, and render stages automatically
+- **Deterministic rendering** - `temperature: 0.0` on the final stage locks sketch-to-render alignment to near 1:1
+- **Model-per-stage selection** - lighter models handle fast text and sketch tasks; `gemini-3-pro-image-preview` handles the high-fidelity render
+- **Vercel-ready** - `vercel.json` targets the `iad1` region; deploy from the dashboard with one env variable
+- **Live progress feedback** - the UI steps through `step1 -> step2 -> step3 -> complete` states as each API call resolves
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **AI Models**: 
-  - `gemini-2.0-flash-lite` - Fast text enhancement
-  - `gemini-2.5-flash-image` - Sketch generation
-  - `gemini-3-pro-image-preview` - High-quality sketch-to-render transformation
+| Component | Technology |
+|-----------|------------|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript 5.5 |
+| Styling | Tailwind CSS 3.4 |
+| AI Models | Gemini 2.0 Flash Lite, Gemini 2.5 Flash Image, Gemini 3 Pro Image Preview |
+| Deployment | Vercel (region: iad1) |
+
+## Architecture
+
+```mermaid
+graph TD
+    A["User Prompt<br/>(plain text)"] --> B["POST /api/generate/step1<br/>gemini-2.0-flash-lite<br/>Text Enhancement"]
+    B --> C["POST /api/generate/step2<br/>gemini-2.5-flash-image<br/>Sketch Generation"]
+    C --> D["POST /api/generate/step3<br/>gemini-3-pro-image-preview<br/>Photorealistic Render<br/>temp=0.0, topK=40"]
+    D --> E["Rendered Image<br/>(base64 PNG)"]
+    F["page.tsx<br/>Client UI"] -->|"fetch (sequential)"| A
+    F --> E
+
+    style A fill:#0f3460,color:#fff
+    style B fill:#16213e,color:#fff
+    style C fill:#16213e,color:#fff
+    style D fill:#533483,color:#fff
+    style E fill:#0f3460,color:#fff
+    style F fill:#533483,color:#fff
+```
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ and npm
-- Google AI Studio API key ([Get one here](https://aistudio.google.com/apikey))
+- Node.js 18+
+- Google AI Studio API key ([get one here](https://aistudio.google.com/apikey))
 
 ### Installation
 
 1. Clone the repository:
-```bash
-git clone <your-repo-url>
-cd google-ai-studio
-```
+   ```bash
+   git clone https://github.com/adityonugrohoid/google-ai-studio.git
+   cd google-ai-studio
+   ```
 
 2. Install dependencies:
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
-3. Create a `.env.local` file in the root directory:
+### Configuration
+
+Create a `.env.local` file in the root:
+
 ```bash
 GOOGLE_AI_API_KEY=your_api_key_here
 ```
 
-4. Run the development server:
+## Usage
+
+Start the development server:
+
 ```bash
 npm run dev
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000), enter a room description (e.g., "modern minimalist living room"), and click **Generate Design**. The UI steps through each stage and displays the final photorealistic render.
 
-## Deployment to Vercel
+## How It Works
 
-1. Push your code to GitHub/GitLab/Bitbucket
+### 1. Text Enhancement (`step1` - `gemini-2.0-flash-lite`)
 
-2. Import your repository in [Vercel](https://vercel.com)
+The base prompt ("modern living room") is expanded into a detailed architectural description with material specs, lighting cues, and spatial proportions. This ensures the downstream image models have structured, contextual input.
 
-3. Add your environment variable:
-   - Go to Project Settings → Environment Variables
-   - Add `GOOGLE_AI_API_KEY` with your API key value
+### 2. Sketch Generation (`step2` - `gemini-2.5-flash-image`)
 
-4. Deploy! Vercel will automatically build and deploy your application.
+The enhanced prompt is converted into a black-and-white architectural line sketch. This stage separates composition and layout from final rendering, giving step3 a concrete structural reference.
+
+### 3. Photorealistic Rendering (`step3` - `gemini-3-pro-image-preview`)
+
+The sketch image plus enhanced prompt are passed to Gemini's text-and-image-to-image API with a tuned generation config:
+
+| Parameter | Value | Effect |
+|-----------|-------|--------|
+| `temperature` | `0.0` | Deterministic output; near 1:1 sketch alignment |
+| `topP` | `1.0` | Full vocabulary access for quality |
+| `topK` | `40` | Balanced creativity vs. accuracy |
+
+`gemini-3-pro-image-preview` was chosen over `gemini-2.5-flash-image` here because the Flash model introduces occasional creativity drift, breaking strict sketch correspondence.
+
+## API Reference
+
+### Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/generate/step1` | Expand a base prompt into a detailed architectural description |
+| `POST` | `/api/generate/step2` | Generate a B&W sketch from an enhanced prompt |
+| `POST` | `/api/generate/step3` | Transform a sketch into a photorealistic render |
+
+### POST `/api/generate/step1`
+
+**Request:**
+```json
+{ "basePrompt": "modern living room" }
+```
+**Response:**
+```json
+{ "enhancedPrompt": "Detailed architectural description..." }
+```
+
+### POST `/api/generate/step2`
+
+**Request:**
+```json
+{ "enhancedPrompt": "Detailed architectural description..." }
+```
+**Response:**
+```json
+{ "imageData": "data:image/png;base64,..." }
+```
+
+### POST `/api/generate/step3`
+
+**Request:**
+```json
+{ "sketchImageData": "data:image/png;base64,..." }
+```
+**Response:**
+```json
+{ "imageData": "data:image/png;base64,..." }
+```
+
+## Architectural Decisions
+
+### 1. Sequential API calls in the client (not a server-side orchestrator)
+
+**Decision:** `page.tsx` calls step1, step2, and step3 in sequence via `fetch`, piping each response into the next call.
+
+**Reasoning:** Keeping orchestration in the client avoids long-running serverless function timeouts (Vercel's 60s default per route). Each route completes independently and returns fast. The trade-off is that the client holds intermediate state; acceptable for a single-user design tool with no concurrency requirement.
+
+### 2. Model assignment per stage
+
+**Decision:** Three different Gemini models rather than one model for all stages.
+
+**Reasoning:** `gemini-2.0-flash-lite` is fast and cheap for pure text tasks. `gemini-2.5-flash-image` is efficient for sketch generation where some creative latitude is acceptable. `gemini-3-pro-image-preview` is reserved for the final render, where 1:1 sketch fidelity is required - the Pro model's stronger instruction following eliminates the creativity drift observed with Flash on the image-to-image task.
+
+### 3. `temperature: 0.0` on the render stage only
+
+**Decision:** Deterministic sampling is applied only to step3, not to steps 1 or 2.
+
+**Reasoning:** Text enhancement and sketch generation benefit from some variability to produce richer descriptions and natural line variation. The render stage must match the sketch exactly, so full determinism is appropriate there.
 
 ## Project Structure
 
 ```
-.
+google-ai-studio/
 ├── app/
 │   ├── api/
 │   │   └── generate/
-│   │       ├── step1/     # Text enhancement API
-│   │       ├── step2/     # Sketch generation API
-│   │       └── step3/     # Render generation API (with tuned config)
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx          # Root layout
-│   └── page.tsx            # Main page component
-├── public/                # Static assets
+│   │       ├── step1/route.ts     # Text enhancement via gemini-2.0-flash-lite
+│   │       ├── step2/route.ts     # Sketch generation via gemini-2.5-flash-image
+│   │       └── step3/route.ts     # Render via gemini-3-pro-image-preview (temp=0.0)
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx                   # Client UI with step-state machine
+├── public/
+├── vercel.json                    # Vercel config (region: iad1)
 ├── package.json
 ├── next.config.js
 ├── tailwind.config.js
 └── tsconfig.json
 ```
 
-## API Routes
+## Deployment
 
-### POST `/api/generate/step1`
-Enhances a simple text description into a detailed architectural prompt.
+### Local Development
 
-**Request:**
-```json
-{
-  "basePrompt": "modern living room"
-}
+```bash
+npm run dev
 ```
 
-**Response:**
-```json
-{
-  "enhancedPrompt": "Detailed architectural description..."
-}
-```
+### Vercel
 
-### POST `/api/generate/step2`
-Generates a black-and-white architectural sketch from an enhanced prompt.
+1. Import the repository at [vercel.com/new](https://vercel.com/new).
+2. Add the environment variable:
+   - `GOOGLE_AI_API_KEY` - your Google AI Studio API key
+3. Deploy. Vercel detects Next.js automatically; `vercel.json` sets the region to `iad1`.
 
-**Request:**
-```json
-{
-  "enhancedPrompt": "Detailed architectural description..."
-}
-```
+## Related Projects
 
-**Response:**
-```json
-{
-  "imageData": "data:image/png;base64,..."
-}
-```
-
-### POST `/api/generate/step3`
-Transforms a sketch image into a photorealistic render using optimized generation parameters.
-
-**Request:**
-```json
-{
-  "sketchImageData": "data:image/png;base64,..."
-}
-```
-
-**Response:**
-```json
-{
-  "imageData": "data:image/png;base64,..."
-}
-```
-
-**Generation Config:**
-- `temperature: 0.0` - Ensures deterministic output matching the sketch
-- `topP: 1.0` - Full vocabulary access for quality
-- `topK: 40` - Balanced creativity and accuracy
-
-## Usage
-
-1. Enter a simple room description (e.g., "modern minimalist living room")
-2. Click "Generate Design"
-3. Watch as the AI:
-   - Enhances your description with architectural details
-   - Creates a conceptual sketch
-   - Generates a photorealistic render with high-fidelity sketch alignment
-
-## Target Audience
-
-This project is designed to provide services to **interior designers** where:
-- Simple, high-quality renders can be achieved through AI
-- No complex 3D modeling software required
-- Fast iteration and visualization
-- Professional-grade output suitable for client presentations
-
-## Models Used
-
-- **Step 1**: `gemini-2.0-flash-lite` - Fast text generation for prompt enhancement
-- **Step 2**: `gemini-2.5-flash-image` - Efficient sketch generation from text
-- **Step 3**: `gemini-3-pro-image-preview` - High-quality image-to-image transformation with high-fidelity sketch alignment
+| Project | Description |
+|---------|-------------|
+| [google-cloud-ai-studio](https://github.com/adityonugrohoid/google-cloud-ai-studio) | Python/Streamlit sibling - same 3-stage Gemini pipeline, deployed on Cloud Run instead of Vercel |
 
 ## License
 
-MIT
+This project is licensed under the [MIT License](LICENSE).
 
 ## Author
 
-**AdityoLab** - AI System Designer & Full-Stack Developer
-
-Portfolio project demonstrating advanced AI integration and system design.
+**Adityo Nugroho** ([@adityonugrohoid](https://github.com/adityonugrohoid))
