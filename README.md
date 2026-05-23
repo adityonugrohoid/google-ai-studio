@@ -1,11 +1,11 @@
 <div align="center">
 
-# AI Studio by AdityoLab
+# Google AI Studio
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black.svg)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black.svg)](https://vercel.com)
+[![Vercel](https://img.shields.io/badge/Deployed-Vercel-black.svg)](https://adityolab-ai-studio.vercel.app/)
 
 **Next.js app that generates photorealistic interior renders from text via a 3-stage Gemini pipeline: enhance, sketch, render**
 
